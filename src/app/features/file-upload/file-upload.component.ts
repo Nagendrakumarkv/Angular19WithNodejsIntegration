@@ -1,6 +1,6 @@
 import { Component, inject, Inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MessageService } from '../../core/message.service';
+import { MessageService } from '../../core/services/message.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -9,10 +9,10 @@ import { MessageService } from '../../core/message.service';
   styleUrl: './file-upload.component.scss',
 })
 export class FileUploadComponent {
-  selectedFile = signal<File | null>(null);
-  uploadStatus = signal<string>('');
+  protected selectedFile = signal<File | null>(null);
+  protected uploadStatus = signal<string>('');
 
-  private messageService: MessageService = inject(MessageService); // In context
+  private messageService = inject(MessageService);
 
   constructor() {}
 
@@ -25,11 +25,17 @@ export class FileUploadComponent {
 
   uploadFile() {
     if (this.selectedFile()) {
+      this.uploadStatus.set('Uploading...');
       this.messageService.uploadFile(this.selectedFile()!).subscribe({
-        next: (response) => this.uploadStatus.set('Upload successful!'),
-        error: () => this.uploadStatus.set('Upload failed!'),
+        next: (response) => {
+          this.uploadStatus.set('Upload successful!');
+          this.selectedFile.set(null);
+        },
+        error: (err) => {
+          this.uploadStatus.set('Upload failed: ' + err.message);
+          console.error('Upload error:', err);
+        },
       });
-      this.selectedFile.set(null);
     }
   }
 }

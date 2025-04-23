@@ -1,3 +1,5 @@
+<h2>Messages</h2>
+@defer (on viewport) {
 <ul>
   @for (message of messages(); track message.id) {
   <li>
@@ -6,3 +8,8 @@
   </li>
   }
 </ul>
+} @placeholder {
+<p>Loading messages...</p>
+} @error {
+<p>Error loading messages.</p>
+}
