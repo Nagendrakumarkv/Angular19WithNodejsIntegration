@@ -3,7 +3,8 @@
 <ul>
   @for (message of messages(); track message.id) {
   <li>
-    {{ message.text }} @if (message.fileUrl) {
+    {{ message.text }} ({{ message.createdAt | dateFormat }}) @if
+    (message.fileUrl) {
     <a [href]="message.fileUrl" target="_blank">Download</a> }
   </li>
   }

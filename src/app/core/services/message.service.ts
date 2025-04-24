@@ -14,7 +14,7 @@ export class MessageService {
     : 'http://localhost:3000';
 
   private accessToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWRmNzBlYjFhYTE2OGI4NThiYjVkYSIsImlhdCI6MTc0NTM3NDAyNSwiZXhwIjoxNzQ1Mzc3NjI1fQ.G5PoqiTLzvFWfYD8z_9eRz3Wa5czMQDhUlLdkmmQHwM';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWRmNzBlYjFhYTE2OGI4NThiYjVkYSIsImlhdCI6MTc0NTQ2Mjk4NiwiZXhwIjoxNzQ1NDY2NTg2fQ.O7YUImp6Sxo52d3g-hVyz7l85ZOk0vNjfzhkvCRNnkE';
 
   constructor(private http: HttpClient) {}
 
