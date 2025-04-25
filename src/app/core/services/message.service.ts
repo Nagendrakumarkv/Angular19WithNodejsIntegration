@@ -46,6 +46,18 @@ export class MessageService {
       );
   }
 
+  login(username: string, password: string): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/users/login`, { username, password })
+      .pipe(
+        tap((response: any) => {
+          if (response.accessToken)
+            localStorage.setItem('jwt_token', response.accessToken);
+        }),
+        catchError(this.handleError<any>('login', {}))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
