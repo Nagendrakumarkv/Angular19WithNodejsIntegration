@@ -1,6 +1,7 @@
 import { Component, inject, Inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageService } from '../../core/services/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-file-upload',
@@ -13,6 +14,7 @@ export class FileUploadComponent {
   protected uploadStatus = signal<string>('');
 
   private messageService = inject(MessageService);
+  private router = inject(Router);
 
   constructor() {}
 
@@ -37,5 +39,9 @@ export class FileUploadComponent {
         },
       });
     }
+  }
+
+  onGoToMessageListClick() {
+    this.router.navigate(['/messages']);
   }
 }

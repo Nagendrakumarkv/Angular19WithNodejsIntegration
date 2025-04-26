@@ -1,3 +1,5 @@
+<button (click)="onGoToMessageListClick()">Go To Message List</button
+><br /><br />
 <input type="file" (change)="onFileSelected($event)" />
 <button (click)="uploadFile()" [disabled]="!selectedFile()">Upload</button>
 <p *ngIf="uploadStatus()">{{ uploadStatus() }}</p>

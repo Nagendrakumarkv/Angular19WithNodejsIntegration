@@ -4,6 +4,7 @@ import { MessageService } from '../../core/services/message.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 import { Message } from '../../core/models/message.model';
 import { DateFormatPipe } from '../../shared/pipes/date-format.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
@@ -15,6 +16,7 @@ export class MessagesComponent {
   protected messages = signal<Message[]>([]);
   private messageService = inject(MessageService);
   private webSocketService = inject(WebSocketService);
+  private router = inject(Router);
 
   constructor() {
     this.loadMessages();
@@ -32,5 +34,9 @@ export class MessagesComponent {
     this.webSocketService.getMessages().subscribe((message) => {
       this.messages.update((msgs) => [...msgs, message]);
     });
+  }
+
+  onGoToFileUploadClick() {
+    this.router.navigate(['/upload']);
   }
 }
