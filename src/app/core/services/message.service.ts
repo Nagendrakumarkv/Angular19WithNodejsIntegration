@@ -9,9 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class MessageService {
-  private apiUrl = environment.production
-    ? 'https://nodejs-mongodb-learning.onrender.com'
-    : 'http://localhost:3000';
+  private apiUrl = environment.apiUrl;
 
   private accessToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWRmNzBlYjFhYTE2OGI4NThiYjVkYSIsImlhdCI6MTc0NTQ2Mjk4NiwiZXhwIjoxNzQ1NDY2NTg2fQ.O7YUImp6Sxo52d3g-hVyz7l85ZOk0vNjfzhkvCRNnkE';
