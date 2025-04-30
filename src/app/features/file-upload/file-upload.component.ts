@@ -1,7 +1,10 @@
-import { Component, inject, Inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MessageService } from '../../core/services/message.service';
 import { Router } from '@angular/router';
+import { combineLatest, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/message.state';
+import { uploadFile } from '../../store/message.actions';
 
 @Component({
   selector: 'app-file-upload',
@@ -11,12 +14,24 @@ import { Router } from '@angular/router';
 })
 export class FileUploadComponent {
   protected selectedFile = signal<File | null>(null);
-  protected uploadStatus = signal<string>('');
+  protected loading$: Observable<boolean>;
+  protected success$: Observable<boolean>;
+  protected error$: Observable<string | null>;
+  protected fileUrl$: Observable<string | null>;
+  protected showSuccess$: Observable<boolean>;
 
-  private messageService = inject(MessageService);
   private router = inject(Router);
+  private store = inject(Store<AppState>);
 
-  constructor() {}
+  constructor() {
+    this.loading$ = this.store.select((state) => state.upload.loading);
+    this.success$ = this.store.select((state) => state.upload.success);
+    this.error$ = this.store.select((state) => state.upload.error);
+    this.fileUrl$ = this.store.select((state) => state.upload.fileUrl);
+    this.showSuccess$ = combineLatest([this.success$, this.fileUrl$]).pipe(
+      map(([success, fileUrl]) => success && !!fileUrl)
+    );
+  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -27,21 +42,15 @@ export class FileUploadComponent {
 
   uploadFile() {
     if (this.selectedFile()) {
-      this.uploadStatus.set('Uploading...');
-      this.messageService.uploadFile(this.selectedFile()!).subscribe({
-        next: (response) => {
-          this.uploadStatus.set('Upload successful!');
-          this.selectedFile.set(null);
-        },
-        error: (err) => {
-          this.uploadStatus.set('Upload failed: ' + err.message);
-          console.error('Upload error:', err);
-        },
-      });
+      this.store.dispatch(uploadFile({ file: this.selectedFile()! }));
+      this.store.dispatch(resetUploadStatus()); // Optional: Reset after upload
     }
   }
 
   onGoToMessageListClick() {
     this.router.navigate(['/messages']);
   }
+}
+function resetUploadStatus(): any {
+  throw new Error('Function not implemented.');
 }

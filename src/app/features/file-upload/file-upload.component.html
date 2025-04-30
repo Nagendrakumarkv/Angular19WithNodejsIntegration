@@ -1,5 +1,11 @@
 <button (click)="onGoToMessageListClick()">Go To Message List</button
 ><br /><br />
 <input type="file" (change)="onFileSelected($event)" />
-<button (click)="uploadFile()" [disabled]="!selectedFile()">Upload</button>
-<p *ngIf="uploadStatus()">{{ uploadStatus() }}</p>
+<button (click)="uploadFile()" [disabled]="loading$ | async">Upload</button>
+@if(showSuccess$ | async){
+<p>
+  Upload successful! <a [href]="fileUrl$ | async" target="_blank">Download</a>
+</p>
+} @if(error$ | async){
+<p style="color: red">{{ error$ | async }}</p>
+}

@@ -1,6 +1,11 @@
 <button (click)="onGoToFileUploadClick()">Go To File Upload</button>
+
 <h2>Messages</h2>
-@defer (on viewport) {
+@if (loading$ | async) {
+<p>Loading messages...</p>
+} @else if (error$ | async) {
+<p>Error: {{ error$ | async }}</p>
+} @else {
 <ul>
   @for (message of messages(); track message.id) {
   <li>
@@ -10,8 +15,4 @@
   </li>
   }
 </ul>
-} @placeholder {
-<p>Loading messages...</p>
-} @error {
-<p>Error loading messages.</p>
 }
