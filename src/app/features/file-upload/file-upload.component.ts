@@ -13,7 +13,7 @@ import { uploadFile } from '../../store/message.actions';
   styleUrl: './file-upload.component.scss',
 })
 export class FileUploadComponent {
-  protected selectedFile = signal<File | null>(null);
+  public selectedFile = signal<File | null>(null);
   protected loading$: Observable<boolean>;
   protected success$: Observable<boolean>;
   protected error$: Observable<string | null>;

@@ -37,7 +37,6 @@ export class MessagesComponent {
   }
 
   loadStore() {
-    this.store.subscribe((state) => console.log('Full State:', state));
     this.store
       .select((state) => state.messages.messages)
       .subscribe((messages) => {
